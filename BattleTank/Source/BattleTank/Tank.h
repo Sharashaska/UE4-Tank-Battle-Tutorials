@@ -5,11 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 //#include "TankAimingComponent.h" 
-// Ö»ÔÚ header file Àï include ÄãµÄ¸¸Àà, ÆäËüµÄ¶¼ÓÃ forward declaration. ÔÚ cpp file ÀïÔÙ include.
+// Ö»ï¿½ï¿½ header file ï¿½ï¿½ include ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ forward declaration. ï¿½ï¿½ cpp file ï¿½ï¿½ï¿½ï¿½ include.
 #include "Tank.generated.h"
 
 class UTankBarrel;
+class UTankTurret;
 class UTankAimingComponent;
+class AProjectile;
+
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -24,6 +27,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
+
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 10000.f; // 1000m/s
 
@@ -35,4 +44,14 @@ private:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	//UClass* ProjectileBlueprint;
+	TSubclassOf<AProjectile> ProjectileBleuprint;
+
+	UTankBarrel* Barrel = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	float ReloadTimeInSeconds = 3.f;
+	
+	double LastFireTime = 0;
 };
