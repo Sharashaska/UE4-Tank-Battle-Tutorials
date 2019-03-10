@@ -21,8 +21,9 @@ public:
 	void Tick(float DeltaTime) override;
 	void BeginPlay() override;
 
-private:
 	
-	//ATank* GetControlledTank() const;
-	//ATank* GetPlayerTank() const;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	float AcceptanceRadius = 3000.f;
 };

@@ -25,19 +25,20 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetTurretReference(UTankTurret* TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Firing)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 10000.f; // 1000m/s
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaunchSpeed = 6000.f; // 1000m/s
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -48,13 +49,13 @@ private:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	//UClass* ProjectileBlueprint;
 	TSubclassOf<AProjectile> ProjectileBleuprint;
 
 	UTankBarrel* Barrel = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	float ReloadTimeInSeconds = 3.f;
 	
 	double LastFireTime = 0;
