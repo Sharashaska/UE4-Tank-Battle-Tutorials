@@ -19,7 +19,7 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 public:
 	void Tick(float DeltaTime) override;
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	
 

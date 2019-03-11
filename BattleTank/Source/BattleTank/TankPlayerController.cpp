@@ -2,19 +2,22 @@
 
 #include "TankPlayerController.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetControlledTank();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	ATank* Tank = Cast<ATank>(GetPawn());
-	if (Tank) {
+	if (!ensure(Tank)) {
 		//UE_LOG(LogTemp, Warning, TEXT("Controlled tank is %s."), *(Tank->GetName()));
 	}
 	return Tank;
@@ -29,7 +32,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!GetControlledTank()) {
+	if (!ensure(GetControlledTank())) {
 		return;
 	}
 	
