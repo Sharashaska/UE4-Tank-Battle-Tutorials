@@ -9,18 +9,9 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
-}
-
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	ATank* Tank = Cast<ATank>(GetPawn());
-	if (!ensure(Tank)) {
-		//UE_LOG(LogTemp, Warning, TEXT("Controlled tank is %s."), *(Tank->GetName()));
-	}
-	return Tank;
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -32,7 +23,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!ensure(GetControlledTank())) {
+	if (!ensure(GetPawn())) {
 		return;
 	}
 	
@@ -41,7 +32,9 @@ void ATankPlayerController::AimTowardsCrossHair()
 		//get world location through crosshair
 
 		//if hit something, then control tank to aim at this point
-		GetControlledTank()->AimAt(HitLocation);
+		auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+		if (!ensure(AimingComponent)) { return; }
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 

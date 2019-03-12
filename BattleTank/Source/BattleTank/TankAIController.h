@@ -4,13 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-//#include "Tank.h"
-//#include "Engine/World.h"
-//#include "GameFramework/PlayerController.h"
 #include "TankAIController.generated.h"
-
-class ATank;
-//class UWorld;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -20,8 +14,6 @@ class BATTLETANK_API ATankAIController : public AAIController
 public:
 	void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
-
-	
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
