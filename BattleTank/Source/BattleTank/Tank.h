@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-//#include "TankAimingComponent.h" 
 // ֻ�� header file �� include ��ĸ���, �����Ķ��� forward declaration. �� cpp file ���� include.
 #include "Tank.generated.h"
 
@@ -15,9 +14,5 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 	ATank();
-
-protected:
-
-private:
 	
 };

@@ -23,7 +23,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!ensure(GetPawn())) {
+	if (!GetPawn()) {
 		return;
 	}
 	
