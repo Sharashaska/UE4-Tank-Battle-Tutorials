@@ -21,7 +21,9 @@ void ATankAIController::Tick(float DeltaTime)
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
 	//fire every frame
-	TankAimingComponent->Fire(); 
+	if (TankAimingComponent->GetFiringState() == EFiringState::Locked) {
+		TankAimingComponent->Fire();
+	}
 	
 }
 

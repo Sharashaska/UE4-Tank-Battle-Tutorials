@@ -14,14 +14,16 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	LastFireTime = FPlatformTime::Seconds();
+	LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
+	if (RoundsLeft <= 0) {
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds) {
 		FiringState = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving()) {
@@ -55,6 +57,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
+	UE_LOG(LogTemp, Warning, TEXT("%f hit location %s start location %s"), GetWorld()->GetTimeSeconds(), 
+		*HitLocation.ToString(), *StartLocation.ToString());
 
 	auto Time = GetWorld()->GetTimeSeconds();
 	if (Result) {
@@ -63,6 +67,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s."), *(GetOwner()->GetName()), *(HitLocation.ToString()), *(BarrelLocation.ToString()));
 	}
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
@@ -102,13 +111,20 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::Fire()
 {
-	if (FiringState != EFiringState::Reloading) {
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming) {
 		if (!ensure(Barrel && ProjectileBleuprint)) { return; }
 		//spawn a projectile at the socket location
 		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
 		FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBleuprint, SocketLocation, SocketRotation);
 		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
+		LastFireTime = GetWorld()->GetTimeSeconds();
+
+		RoundsLeft--;
 	}
+}
+
+FText UTankAimingComponent::GetRoundsLeft() const
+{
+	return FText::FromString(FString::FromInt(RoundsLeft));
 }

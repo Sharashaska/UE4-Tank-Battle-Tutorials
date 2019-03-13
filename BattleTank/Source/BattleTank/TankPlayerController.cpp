@@ -23,17 +23,15 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!GetPawn()) {
-		return;
-	}
+	if (!GetPawn()) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 	
+	//get world location through crosshair
 	FVector HitLocation; // out parameter
-	if (GetSightRayHitLocation(HitLocation)) {
-		//get world location through crosshair
-
+	bool bHitAnything = GetSightRayHitLocation(HitLocation);
+	if (bHitAnything) {
 		//if hit something, then control tank to aim at this point
-		auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-		if (!ensure(AimingComponent)) { return; }
 		AimingComponent->AimAt(HitLocation);
 	}
 }
@@ -51,10 +49,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		//UE_LOG(LogTemp, Warning, TEXT("Look Direction is %s."), *LookDirection.ToString());
 
 		//line trace along that look direction, see what we hit (up to max range)
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 	
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const
