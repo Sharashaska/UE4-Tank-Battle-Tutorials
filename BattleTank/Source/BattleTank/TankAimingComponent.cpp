@@ -57,8 +57,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
-	UE_LOG(LogTemp, Warning, TEXT("%f hit location %s start location %s"), GetWorld()->GetTimeSeconds(), 
-		*HitLocation.ToString(), *StartLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%f hit location %s start location %s"), GetWorld()->GetTimeSeconds(), 
+	//	*HitLocation.ToString(), *StartLocation.ToString());
 
 	auto Time = GetWorld()->GetTimeSeconds();
 	if (Result) {

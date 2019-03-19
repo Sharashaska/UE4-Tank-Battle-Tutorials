@@ -17,14 +17,14 @@ void ATankAIController::Tick(float DeltaTime)
 	if (!ensure(TankAimingComponent)) { return;  }
 	TankAimingComponent->AimAt(PlayerTankLocation);
 
-	//move toward the player
-	MoveToActor(PlayerTank, AcceptanceRadius);
-
 	//fire every frame
 	if (TankAimingComponent->GetFiringState() == EFiringState::Locked) {
 		TankAimingComponent->Fire();
 	}
-	
+
+	//move toward the player
+	MoveToActor(PlayerTank, AcceptanceRadius);
+
 }
 
 void ATankAIController::BeginPlay()
