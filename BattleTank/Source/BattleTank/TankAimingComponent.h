@@ -65,10 +65,10 @@ private:
 	FVector AimDirection;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int RoundsLeft = 5;
+	int32 RoundsLeft = 10;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
-	float ReloadTimeInSeconds = 3.f;
+	float ReloadTimeInSeconds = 2.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	//UClass* ProjectileBlueprint;

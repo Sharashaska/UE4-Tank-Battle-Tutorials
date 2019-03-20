@@ -2,6 +2,7 @@
 
 #include "Tank.h"
 #include "Classes/Engine/World.h"
+#include "TankTrack.h"
 
 
 // Sets default values
@@ -12,6 +13,7 @@ ATank::ATank()
 
 	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
+
 }
 
 

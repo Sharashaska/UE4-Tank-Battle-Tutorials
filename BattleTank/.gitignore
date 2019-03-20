@@ -1,4 +1,6 @@
 *.VC.db
+BattleTank.VC.VC.opendb
+.vs/
 
 # Visual Studio 2015 user specific files
 .vs/
