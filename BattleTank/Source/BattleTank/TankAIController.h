@@ -15,10 +15,14 @@ public:
 	void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 protected:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float AcceptanceRadius = 5000.f;
 
 private:
+	virtual void SetPawn(APawn* InPawn) override;
 	
 };
